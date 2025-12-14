@@ -39,12 +39,6 @@ export function Navbar() {
         </Link>
 
         <div className="hidden md:flex items-center gap-6">
-          <Link href="/catalog">
-            <a className={`text-sm font-medium transition-colors hover:text-primary ${location === '/catalog' ? 'text-primary' : 'text-muted-foreground'}`}>
-              Browse Theses
-            </a>
-          </Link>
-          
           {user?.role === 'admin' && (
              <Link href="/admin">
              <a className={`text-sm font-medium transition-colors hover:text-primary ${location === '/admin' ? 'text-primary' : 'text-muted-foreground'}`}>
