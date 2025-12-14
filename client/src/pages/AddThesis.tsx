@@ -36,7 +36,8 @@ export function AddThesis() {
   const { toast } = useToast();
 
   const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: currentYear - 2020 + 2 }, (_, i) => (currentYear + 1 - i).toString());
+  // Generate years from 2020 to currentYear + 1
+  const years = Array.from({ length: (currentYear + 1) - 2020 + 1 }, (_, i) => (currentYear + 1 - i).toString());
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -137,7 +138,7 @@ export function AddThesis() {
                               <SelectValue placeholder="Select year" />
                             </SelectTrigger>
                           </FormControl>
-                          <SelectContent>
+                          <SelectContent className="max-h-[300px]">
                             {years.map((y) => (
                               <SelectItem key={y} value={y}>{y}</SelectItem>
                             ))}

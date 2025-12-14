@@ -17,7 +17,10 @@ export function Catalog() {
   const currentYear = new Date().getFullYear();
   const years = useMemo(() => {
     const yearsArr = [];
-    for (let y = currentYear + 1; y >= 2020; y--) {
+    const startYear = 2020;
+    const endYear = currentYear + 1;
+    
+    for (let y = endYear; y >= startYear; y--) {
       yearsArr.push(y);
     }
     return yearsArr;
@@ -86,7 +89,7 @@ export function Catalog() {
               <SelectTrigger>
                 <SelectValue placeholder="Year" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="max-h-[300px]">
                 <SelectItem value="All">All Years</SelectItem>
                 {years.map(y => (
                   <SelectItem key={y} value={y.toString()}>{y}</SelectItem>
