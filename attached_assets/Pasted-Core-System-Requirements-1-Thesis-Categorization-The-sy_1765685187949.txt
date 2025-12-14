@@ -1,0 +1,122 @@
+Core System Requirements
+1. Thesis Categorization
+
+The system must catalog IT theses into two main categories:
+
+Frontend Development
+
+Web Development
+
+Each thesis must belong to only one category.
+
+2. Year-Based Cataloging
+
+Theses must be organized by year, starting from 2020 up to the current year.
+
+The system must be dynamic, meaning:
+
+New years should automatically be supported without code changes.
+
+Future theses (e.g., 2026, 2027, etc.) can be added seamlessly.
+
+3. Thesis Information Fields
+
+Each thesis record must include:
+
+Thesis title
+
+Author(s)
+
+Year of submission
+
+Category (Frontend Development or Web Development)
+
+Abstract / short description
+
+Adviser (optional)
+
+File upload (PDF thesis document)
+
+Date added (auto-generated)
+
+Backend Requirements
+
+Use Node.js with Express (or Python Flask if preferred).
+
+Use a database (SQLite, PostgreSQL, or MongoDB).
+
+Create RESTful API endpoints for:
+
+Adding a new thesis
+
+Updating thesis details
+
+Deleting a thesis
+
+Fetching theses by:
+
+Category
+
+Year
+
+Category + Year
+
+Fetching all theses
+
+Implement proper data validation.
+
+Store uploaded thesis PDFs securely.
+
+Use environment variables for sensitive data.
+
+Provide clear API documentation or comments.
+
+Frontend Requirements
+
+Use React, Vue, or vanilla HTML/CSS/JavaScript.
+
+Create a clean and responsive UI suitable for a university system.
+
+Pages / Components required:
+
+Dashboard / Home page
+
+Thesis catalog list
+
+Filter system:
+
+Filter by category (Frontend / Web Development)
+
+Filter by year (2020–present)
+
+Thesis detail view
+
+Add thesis form (admin view)
+
+Include:
+
+Search functionality by title or author
+
+Dynamic year dropdown that updates automatically
+
+User-friendly layout with proper spacing and typography
+
+System Behavior
+
+The catalog updates instantly when a new thesis is added.
+
+Filters must work together (e.g., Web Development + 2023).
+
+The system must be scalable for hundreds of thesis records.
+
+Code should be well-structured and commented.
+
+Deliverables
+
+Fully working frontend and backend
+
+Clear project folder structure
+
+Instructions on how to run the system in Replit
+
+Sample seed data (at least 5 theses across different years and categories)
