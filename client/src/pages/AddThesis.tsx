@@ -3,9 +3,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useThesisStore, Category } from "@/lib/store";
-import { useLocation } from "wouter";
+import { useLocation, useRoute } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
 import {
   Form,
   FormControl,
@@ -32,8 +33,12 @@ const formSchema = z.object({
 
 export function AddThesis() {
   const [, setLocation] = useLocation();
-  const { addThesis } = useThesisStore();
+  const [match, params] = useRoute("/edit/:id");
+  const { addThesis, updateThesis, theses } = useThesisStore();
   const { toast } = useToast();
+
+  const isEditing = !!match;
+  const thesisId = params?.id;
 
   const currentYear = new Date().getFullYear();
   // Generate years from 2020 to currentYear + 1
@@ -51,11 +56,28 @@ export function AddThesis() {
     },
   });
 
+  // Load data if editing
+  useEffect(() => {
+    if (isEditing && thesisId) {
+      const thesis = theses.find(t => t.id === thesisId);
+      if (thesis) {
+        form.reset({
+          title: thesis.title,
+          authors: thesis.authors.join(", "),
+          year: thesis.year.toString(),
+          category: thesis.category,
+          abstract: thesis.abstract,
+          adviser: thesis.adviser || "",
+        });
+      }
+    }
+  }, [isEditing, thesisId, theses, form]);
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Process authors string into array
     const authorsArray = values.authors.split(',').map(a => a.trim()).filter(Boolean);
 
-    addThesis({
+    const thesisData = {
       title: values.title,
       authors: authorsArray,
       year: parseInt(values.year),
@@ -63,22 +85,31 @@ export function AddThesis() {
       abstract: values.abstract,
       adviser: values.adviser,
       fileName: `thesis_${Date.now()}.pdf`, // Mock file name
-    });
+    };
 
-    toast({
-      title: "Thesis Added",
-      description: "The thesis has been successfully added to the catalog.",
-    });
+    if (isEditing && thesisId) {
+      updateThesis(thesisId, thesisData);
+      toast({
+        title: "Thesis Updated",
+        description: "The thesis details have been successfully updated.",
+      });
+    } else {
+      addThesis(thesisData);
+      toast({
+        title: "Thesis Added",
+        description: "The thesis has been successfully added to the catalog.",
+      });
+    }
 
-    setLocation("/catalog");
+    setLocation("/admin");
   }
 
   return (
     <Layout>
       <div className="max-w-2xl mx-auto animate-in slide-in-from-bottom-4 duration-500">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold font-heading text-primary">Add New Thesis</h1>
-          <p className="text-muted-foreground mt-1">Submit a new thesis to the repository.</p>
+          <h1 className="text-3xl font-bold font-heading text-primary">{isEditing ? "Edit Thesis" : "Add New Thesis"}</h1>
+          <p className="text-muted-foreground mt-1">{isEditing ? "Update existing thesis record." : "Submit a new thesis to the repository."}</p>
         </div>
 
         <Card className="border-border/60 shadow-md">
@@ -206,8 +237,8 @@ export function AddThesis() {
                 </div>
 
                 <div className="flex justify-end gap-4 pt-4">
-                  <Button type="button" variant="outline" onClick={() => setLocation("/catalog")}>Cancel</Button>
-                  <Button type="submit">Add Thesis to Catalog</Button>
+                  <Button type="button" variant="outline" onClick={() => setLocation("/admin")}>Cancel</Button>
+                  <Button type="submit">{isEditing ? "Update Thesis" : "Add Thesis to Catalog"}</Button>
                 </div>
               </form>
             </Form>

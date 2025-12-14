@@ -1,5 +1,6 @@
 import { useRoute, useLocation } from "wouter";
 import { useThesisStore } from "@/lib/store";
+import { useAuthStore } from "@/lib/store";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -13,7 +14,8 @@ import {
   FileText, 
   Download, 
   Trash2, 
-  GraduationCap 
+  GraduationCap,
+  Pencil
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -21,6 +23,7 @@ export function ThesisDetail() {
   const [match, params] = useRoute("/thesis/:id");
   const [, setLocation] = useLocation();
   const { theses, deleteThesis } = useThesisStore();
+  const { user } = useAuthStore();
   const { toast } = useToast();
 
   if (!match) return null;
@@ -141,25 +144,44 @@ export function ThesisDetail() {
 
                 <div>
                   <h3 className="text-sm font-medium text-muted-foreground mb-2">Document</h3>
-                  <Button className="w-full" variant="outline">
-                    <Download className="mr-2 h-4 w-4" />
-                    Download PDF
-                  </Button>
+                  {user ? (
+                    <Button className="w-full" variant="outline">
+                      <Download className="mr-2 h-4 w-4" />
+                      Download PDF
+                    </Button>
+                  ) : (
+                     <div className="text-sm text-center p-3 bg-muted rounded-md text-muted-foreground">
+                        <span onClick={() => setLocation('/login')} className="text-primary cursor-pointer hover:underline">Log in</span> to download
+                     </div>
+                  )}
                   <p className="text-xs text-center text-muted-foreground mt-2">
                     Added on {new Date(thesis.dateAdded).toLocaleDateString()}
                   </p>
                 </div>
 
-                <Separator />
-
-                <Button 
-                  variant="destructive" 
-                  className="w-full" 
-                  onClick={handleDelete}
-                >
-                  <Trash2 className="mr-2 h-4 w-4" />
-                  Delete Thesis
-                </Button>
+                {user?.role === 'admin' && (
+                  <>
+                    <Separator />
+                    <div className="flex flex-col gap-2">
+                      <Button 
+                        variant="outline" 
+                        className="w-full"
+                        onClick={() => setLocation(`/edit/${thesis.id}`)}
+                      >
+                        <Pencil className="mr-2 h-4 w-4" />
+                        Edit Thesis
+                      </Button>
+                      <Button 
+                        variant="destructive" 
+                        className="w-full" 
+                        onClick={handleDelete}
+                      >
+                        <Trash2 className="mr-2 h-4 w-4" />
+                        Delete Thesis
+                      </Button>
+                    </div>
+                  </>
+                )}
               </CardContent>
             </Card>
           </div>

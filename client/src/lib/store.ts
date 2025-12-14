@@ -106,3 +106,46 @@ export const useThesisStore = create<ThesisStore>((set, get) => ({
     return get().theses.filter((t) => t.category === category);
   },
 }));
+
+export type UserRole = 'admin' | 'viewer';
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+}
+
+interface AuthStore {
+  user: User | null;
+  login: (email: string, role: UserRole) => void;
+  signup: (name: string, email: string, role: UserRole) => void;
+  logout: () => void;
+}
+
+export const useAuthStore = create<AuthStore>((set) => ({
+  user: null, // Start logged out
+  login: (email, role) => {
+    // Mock login
+    set({
+      user: {
+        id: '1',
+        name: role === 'admin' ? 'Admin User' : 'Student Viewer',
+        email,
+        role,
+      },
+    });
+  },
+  signup: (name, email, role) => {
+    // Mock signup
+    set({
+      user: {
+        id: Math.random().toString(36).substr(2, 9),
+        name,
+        email,
+        role,
+      },
+    });
+  },
+  logout: () => set({ user: null }),
+}));
