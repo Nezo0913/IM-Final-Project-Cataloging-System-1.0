@@ -1,7 +1,6 @@
 import { useRoute, useLocation } from "wouter";
 import { useThesisStore } from "@/lib/store";
 import { useAuthStore } from "@/lib/store";
-import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -32,14 +31,12 @@ export function ThesisDetail() {
 
   if (!thesis) {
     return (
-      <Layout>
-        <div className="flex flex-col items-center justify-center h-[60vh] text-center">
-          <h2 className="text-2xl font-bold text-muted-foreground">Thesis not found</h2>
-          <Button variant="link" onClick={() => setLocation("/catalog")}>
-            Return to Catalog
-          </Button>
-        </div>
-      </Layout>
+      <div className="flex flex-col items-center justify-center h-[60vh] text-center">
+        <h2 className="text-2xl font-bold text-muted-foreground">Thesis not found</h2>
+        <Button variant="link" onClick={() => setLocation("/catalog")}>
+          Return to Catalog
+        </Button>
+      </div>
     );
   }
 
@@ -56,7 +53,7 @@ export function ThesisDetail() {
   };
 
   return (
-    <Layout>
+    <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto animate-in fade-in duration-500">
         <Button 
           variant="ghost" 
@@ -187,6 +184,6 @@ export function ThesisDetail() {
           </div>
         </div>
       </div>
-    </Layout>
+    </div>
   );
 }

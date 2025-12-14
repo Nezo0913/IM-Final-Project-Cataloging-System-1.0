@@ -9,7 +9,7 @@ import { Login } from "@/pages/Login";
 import { Signup } from "@/pages/Signup";
 import { Catalog } from "@/pages/Catalog";
 import { ThesisDetail } from "@/pages/ThesisDetail";
-import { AdminDashboard } from "@/pages/AdminDashboard";
+import { AdminDashboard } from "./pages/AdminDashboard";
 import { AddThesis } from "@/pages/AddThesis";
 import NotFound from "@/pages/not-found";
 import { useAuthStore } from "@/lib/store";

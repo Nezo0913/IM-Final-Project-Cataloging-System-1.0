@@ -1,5 +1,4 @@
 import { useState, useMemo } from "react";
-import { Layout } from "@/components/layout/Layout";
 import { useThesisStore, Category } from "@/lib/store";
 import { ThesisCard } from "@/components/thesis/ThesisCard";
 import { Input } from "@/components/ui/input";
@@ -46,9 +45,8 @@ export function Catalog() {
   };
 
   return (
-    <Layout>
-      <div className="space-y-8 animate-in fade-in duration-500">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div className="container mx-auto px-4 py-8 space-y-8 animate-in fade-in duration-500">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold font-heading text-primary">Thesis Catalog</h1>
             <p className="text-muted-foreground mt-1">Browse and filter academic theses.</p>
@@ -115,7 +113,6 @@ export function Catalog() {
             ))}
           </div>
         )}
-      </div>
-    </Layout>
+    </div>
   );
 }

@@ -1,4 +1,3 @@
-import { Layout } from "@/components/layout/Layout";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -105,7 +104,7 @@ export function AddThesis() {
   }
 
   return (
-    <Layout>
+    <div className="container mx-auto px-4 py-8">
       <div className="max-w-2xl mx-auto animate-in slide-in-from-bottom-4 duration-500">
         <div className="mb-8">
           <h1 className="text-3xl font-bold font-heading text-primary">{isEditing ? "Edit Thesis" : "Add New Thesis"}</h1>
@@ -245,6 +244,6 @@ export function AddThesis() {
           </CardContent>
         </Card>
       </div>
-    </Layout>
+    </div>
   );
 }
